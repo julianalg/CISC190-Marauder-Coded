@@ -6,6 +6,8 @@ package edu.sdccd.cisc190.machines;
  * low risk, varying payout slot
  */
 public class DiamondDash extends Slot {
+    // TODO: Check if "💍", "💠", "💎" symbols are suitable for the game, and modify if needed.
+    // TODO: Adjust the values for max payout (1000), return rate (15), and bet multiplier (2) if the game balance feels off.
     public DiamondDash() {
         super(new String[]{"💍", "💠", "💎"}, 1000, 15, 2);
     }
