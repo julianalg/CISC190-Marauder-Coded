@@ -7,8 +7,11 @@ package edu.sdccd.cisc190.machines;
  * low risk, varying payout slot
  */
 public class HondaTrunk extends Slot {
+    
+    // TODO: Hey, this constructor here sets up the symbols and values 
+    // for the HondaTrunk slot machine. You know, like "🚗", "🛻", "🚕"!
     public HondaTrunk() {
-        super(new String[]{"🚗", "🛻", "🚕"}, 1000, 1, 1.5);
+        super(new String[]{"🚗", "🛻", "🚕"}, 1000, 1, 1.5); // Set symbols, max payout, min bet, return multiplier
     }
 
     /**
@@ -19,12 +22,13 @@ public class HondaTrunk extends Slot {
      */
     @Override
     public int evaluateWinCondition(String[] arr) {
+        // TODO: Yo, check if all symbols match, we got a full win! 
         if (arr[0].equals(arr[1]) && arr[1].equals(arr[2])) {
-            return 3; // Full match
+            return 3; // Full match! Wow! That's a win! 
         } else if (arr[0].equals(arr[1]) || arr[1].equals(arr[2]) || arr[0].equals(arr[2])) {
-            return 2;
+            return 2; // Partial match, still good enough to win something, baby!
         } else {
-            return 0;
+            return 0; // No match, oh no! You lost your chance, gotta try again!
         }
     }
 
@@ -38,15 +42,18 @@ public class HondaTrunk extends Slot {
      */
     @Override
     public int calculatePayout(int moneyAmount, String[] spunRow, int bet) {
+        // TODO: Check if the player won something based on their spin
         int winningCondition = evaluateWinCondition(spunRow);
+        
+        // TODO: Let's figure out how much money they will get based on what they won, hee-hee!
         return switch (winningCondition) {
             case 0 -> // No match
-                    moneyAmount - bet;
-            case 2 ->
-                    (int) (moneyAmount + Math.floor(bet * returnAmt * 0.25));
+                    moneyAmount - bet; // Ooooh, no match! You lost your bet, baby!
+            case 2 -> 
+                    (int) (moneyAmount + Math.floor(bet * returnAmt * 0.25)); // Partial match, you still get some payout, yeah!
             case 3 -> // Three-symbol match
-                    (int) (moneyAmount + Math.floor(bet * returnAmt));
-            default -> moneyAmount;
+                    (int) (moneyAmount + Math.floor(bet * returnAmt)); // Full match, get the jackpot, huh!
+            default -> moneyAmount; // If we don't know what happened, just keep what you had
         };
     }
 

@@ -11,14 +11,15 @@ public class PlayerSavesService {
     private static final Logger LOGGER = LoggerFactory.getLogger(PlayerSavesService.class);
 
     /*
-     * Saves the user's name and money into a player_data.txt file on quit to persist their progress
-     * */
+     * TODO: This method is responsible for saving the player's name and money to a file when they quit the game.
+     * The file is called player_data.txt.
+     */
     public static void saveState() {
         HumanPlayer player = HumanPlayer.getInstance();
         String data = "Username: " + player.getName() + ", Money: $" + player.getMoney();
 
         try {
-            // Delete the file if it exists
+            // TODO: Check if the file already exists. If it does, delete it before writing new data.
             File file = new File("player_data.txt");
             if (file.exists()) {
                 if (!file.delete()) {
@@ -27,7 +28,7 @@ public class PlayerSavesService {
                 }
             }
 
-            // Write new data to the file
+            // TODO: Write the new data to the file (username and money) so it is saved.
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
                 writer.write(data);
                 writer.newLine();
@@ -39,14 +40,16 @@ public class PlayerSavesService {
     }
 
     /*
-     * Loads user data from player_data.txt file if available on game open
-     * */
+     * TODO: This method loads the player's saved data from the file when the game starts. 
+     * If the file exists, it sets the username and money for the player.
+     */
     public static boolean loadState() {
         File file = new File("player_data.txt");
         if (file.exists()) {
             try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                String line = reader.readLine();
+                String line = reader.readLine(); // TODO: Read the first line of the file
                 if (line != null) {
+                    // TODO: Split the line to get the username and money and save them for the player
                     String[] data = line.split(", ");
                     String username = data[0].split(": ")[1];
                     int money = Integer.parseInt(data[1].split(": ")[1].replace("$", ""));
@@ -55,21 +58,23 @@ public class PlayerSavesService {
                     player.setUsername(username);
                     player.setMoney(money);
 
-                    return true; // Data successfully loaded
+                    return true; // TODO: Return true if the data was successfully loaded.
                 }
             } catch (IOException | NumberFormatException e) {
-                LOGGER.error("Error reading player data", e);
+                LOGGER.error("Error reading player data", e); // TODO: Handle the error if the file can't be read.
             }
         }
-        return false; // File does not exist or data could not be loaded
+        return false; // TODO: Return false if the file doesn't exist or if loading fails.
     }
 
     /*
-     * Deletes user's information in player_data.txt if available
-     * */
+     * TODO: This method deletes the player's saved data if they want to start fresh. 
+     * It deletes the player_data.txt file.
+     */
     public static void deleteState() {
         File file = new File("player_data.txt");
         if (file.exists()) {
+            // TODO: Try to delete the file and handle if it fails.
             if (!file.delete()) {
                 LOGGER.error("Failed to delete existing player_data.txt file.");
             }

@@ -15,6 +15,7 @@ abstract public class Slot {
     protected int minBet; // Instance-specific min bet
     protected double returnAmt; // Instance-specific return multiplier
 
+    // Constructor to initialize the slot machine with its symbols, max and min bets, and return multiplier
     public Slot(String[] symbols, int maxBet, int minBet, double returnAmt) {
         this.symbols = symbols;
         this.maxBet = maxBet;
@@ -48,8 +49,8 @@ abstract public class Slot {
     * @return If the user's bet is within the bounds of their current balance and the minimum and maximum bet of the machine
     **/
     public boolean canBet(int betAmt) {
-        int playerMoney = HumanPlayer.getInstance().getMoney();
-        return betAmt <= playerMoney && betAmt >= this.getMinBet() && betAmt <= this.getMaxBet();
+        int playerMoney = HumanPlayer.getInstance().getMoney(); // Get the money the player has
+        return betAmt <= playerMoney && betAmt >= this.getMinBet() && betAmt <= this.getMaxBet(); // Check if bet is within allowed range
     }
 
     /**
@@ -57,13 +58,13 @@ abstract public class Slot {
      * @return Random symbols from the machine's symbols array
     **/
     public String[] generateSpunSymbols() {
-        Random rand = new Random();
-        String[] spunSlots = new String[symbols.length];
+        Random rand = new Random(); // Create a new random object
+        String[] spunSlots = new String[symbols.length]; // Create an array to hold the spun symbols
 
         for (int i = 0; i < symbols.length; i++) {
-            spunSlots[i] = symbols[rand.nextInt(symbols.length)];
+            spunSlots[i] = symbols[rand.nextInt(symbols.length)]; // Pick random symbols for each position
         }
-        return spunSlots;
+        return spunSlots; // Return the spun symbols
     }
 
     /**
@@ -73,9 +74,9 @@ abstract public class Slot {
      * **/
     public int evaluateWinCondition(String[] arr) {
         if (arr[0].equals(arr[1]) && arr[1].equals(arr[2])) {
-            return 3; // Full match
+            return 3; // Full match, jackpot!
         } else {
-            return 0;
+            return 0; // No match
         }
     }
 
@@ -85,13 +86,13 @@ abstract public class Slot {
      * @param bet The amount of money the user has bet
      * **/
     public int calculatePayout(int moneyAmount, String[] spunRow, int bet) {
-        int winningCondition = evaluateWinCondition(spunRow);
+        int winningCondition = evaluateWinCondition(spunRow); // Check if there's a win
         return switch (winningCondition) {
-            case 0 -> // No match
+            case 0 -> // No match, reduce money by bet amount
                     moneyAmount - bet;
-            case 3 -> // Three-symbol match
+            case 3 -> // Jackpot, add the winning amount
                     (int) (moneyAmount + Math.floor(bet * returnAmt));
-            default -> moneyAmount;
+            default -> moneyAmount; // Return money if no change
         };
     }
 
@@ -100,10 +101,10 @@ abstract public class Slot {
      * @return resultAmt The bot's new money amount
      * **/
     public int botPlay(Bot bot) {
-        double betVarianceMultiplier = 0.8 + (Math.random() * 0.4); // Random number between 0.8 and 1.2
-        int bet = (int) (bot.getMoney() * bot.getAura() * betVarianceMultiplier); // Calculate the bot's bet as a function of its current money, aura and variance multiplier
+        double betVarianceMultiplier = 0.8 + (Math.random() * 0.4); // Random number between 0.8 and 1.2 for bet variance
+        int bet = (int) (bot.getMoney() * bot.getAura() * betVarianceMultiplier); // Calculate the bot's bet based on its money, aura, and variance multiplier
 
-        float randomNumber = (float) (Math.random());
+        float randomNumber = (float) (Math.random()); // Generate a random number between 0 and 1
         int resultAmt;
 
         /* *
@@ -113,11 +114,11 @@ abstract public class Slot {
         * Bot's money amount is then adjusted accordingly
         * */
         if (randomNumber <= bot.getLuck()) {
-            resultAmt = bet + bot.getMoney();
+            resultAmt = bet + bot.getMoney(); // Bot wins, adds bet to money
         } else {
-            resultAmt = bot.getMoney() - bet;
+            resultAmt = bot.getMoney() - bet; // Bot loses, subtracts bet from money
         }
 
-        return resultAmt;
+        return resultAmt; // Return the updated money amount for the bot
     }
 }

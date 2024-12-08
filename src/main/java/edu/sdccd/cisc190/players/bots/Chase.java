@@ -7,15 +7,14 @@ package edu.sdccd.cisc190.players.bots;
  */
 public class Chase extends Bot {
 
-    private static final Chase instance = new Chase();
+    private static final Chase instance = new Chase();  // TODO: Whoa, we got an instance right here! One and only, like me!
 
     private Chase() {
-        super("Chase Allan", 1000, 0.25, 0.1); // Initial money, luck, and aura values
+        super("Chase Allan", 1000, 0.25, 0.1); // TODO: Starting money, luck, and aura values. Smooth, right? 1000 bucks, but low luck and aura.
     }
 
     public static Chase getInstance() {
-        return instance;
+        return instance;  // TODO: Gimme the instance! We only need one Chase in this world. It's smooth like butter.
     }
-
 
 }
