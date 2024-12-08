@@ -22,9 +22,8 @@ import javafx.stage.Stage;
  * If player data already exists, the application skips this screen and proceeds to the Main Menu.
  */
 public class SetupView extends Application {
-    /**
-     * The username entered by the user. This is used to identify the player in the game.
-     */
+    
+    // TODO: This is where we save the player's name
     static String userName;
 
     /**
@@ -35,14 +34,14 @@ public class SetupView extends Application {
      */
     @Override
     public void start(Stage primaryStage) {
-        // Check if player data file exists and load it
+        // TODO: Check if player data exists to skip the sign-in window
         if (PlayerSavesService.loadState()) {
-            // Proceed directly to the MainMenu if data was loaded
+            // TODO: If player data exists, go straight to the Main Menu
             Stage mainMenuStage = new Stage();
             MainMenuView.setupWindow(mainMenuStage);
-            primaryStage.close();
+            primaryStage.close(); // TODO: Close the sign-in window if loading player data
         } else {
-            // Show sign-in window if no data was loaded
+            // TODO: If no player data exists, show the sign-in window
             showSignInWindow(primaryStage);
         }
     }
@@ -54,26 +53,27 @@ public class SetupView extends Application {
     private void showSignInWindow(Stage primaryStage) {
 
         primaryStage.setOnCloseRequest(_ -> {
+            // TODO: Make sure to stop all threads when closing the app
             SlotMachineManager.stopAllThreads();
-            Platform.exit();
+            Platform.exit(); // TODO: Exit the platform properly
         });
 
-        primaryStage.setTitle("Casino - Sign In");
+        primaryStage.setTitle("Casino - Sign In"); // TODO: Set window title
 
-        // Create labels, text field, and button for the sign-in window
+        // TODO: Create labels, text fields, and buttons for sign-in screen
         Label welcomeLabel = new Label("Welcome to the Casino!");
         Label nameLabel = new Label("What's your name?");
         nameLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 16));
-        nameLabel.setTextFill(Color.GOLD);
+        nameLabel.setTextFill(Color.GOLD); // TODO: Make the name label stand out with gold color
 
         TextField nameField = new TextField();
         nameField.setPromptText("Enter Your Name");
-        nameField.setPrefWidth(250);
+        nameField.setPrefWidth(250); // TODO: Set the width of the text field
 
         Button submitButton = new Button("Enter the Casino");
         submitButton.setFont(Font.font("Arial", FontWeight.BOLD, 14));
 
-        // Configure button styles and hover effects
+        // TODO: Style the button with a cool gradient effect
         submitButton.setStyle(
                 "-fx-background-color: linear-gradient(to bottom, #ffcc00, #ff9900);" +
                         "-fx-text-fill: black;" +
@@ -81,6 +81,7 @@ public class SetupView extends Application {
                         "-fx-padding: 10px 20px;"
         );
 
+        // TODO: Change button color when hovering over it
         submitButton.setOnMouseEntered(_ -> submitButton.setStyle(
                 "-fx-background-color: linear-gradient(to bottom, #ff9900, #ff6600);" +
                         "-fx-text-fill: white;" +
@@ -95,6 +96,7 @@ public class SetupView extends Application {
                         "-fx-padding: 10px 20px;"
         ));
 
+        // TODO: Style the welcome label to make it look awesome
         welcomeLabel.setStyle(
                 "-fx-background-color: #333333; " +
                         "-fx-text-fill: white; " +
@@ -103,6 +105,7 @@ public class SetupView extends Application {
                         "-fx-padding: 10px;"
         );
 
+        // TODO: Style the name text field to match the dark theme
         nameField.setStyle(
                 "-fx-background-color: #333333; " +
                         "-fx-text-fill: white; " +
@@ -111,31 +114,31 @@ public class SetupView extends Application {
                         "-fx-padding: 10px;"
         );
 
-        // Define action for the submit button
+        // TODO: Define the action when the submit button is clicked
         submitButton.setOnAction(_ -> {
-            userName = nameField.getText();
+            userName = nameField.getText(); // TODO: Save the player's name
             HumanPlayer tempPlayer = HumanPlayer.getInstance();
-            tempPlayer.setUsername(userName);
+            tempPlayer.setUsername(userName); // TODO: Set the username in the player object
             tempPlayer.setMoney(1000); // Default starting money if no file was loaded
-            primaryStage.close();
+            primaryStage.close(); // Close the sign-in window
 
-            Stage newWindow = new Stage();
-            MainMenuView.setupWindow(newWindow);
+            Stage newWindow = new Stage(); // Open the main menu window
+            MainMenuView.setupWindow(newWindow); 
         });
 
-        // Layout and styling for the sign-in window
+        // TODO: Layout all the components in the sign-in window
         VBox layout = new VBox(20); // Spacing between components
         layout.getChildren().addAll(welcomeLabel, nameLabel, nameField, submitButton);
-        layout.setAlignment(Pos.CENTER);
+        layout.setAlignment(Pos.CENTER); // TODO: Center align all the components
         layout.setStyle(
                 "-fx-background-color: linear-gradient(to bottom, #000000, #660000);" + // Casino gradient
                         "-fx-padding: 20px;"
         );
 
-        // Create and show the scene
+        // TODO: Set up and display the scene
         Scene scene = new Scene(layout, 350, 250); // Compact window size
         primaryStage.setScene(scene);
-        primaryStage.show();
+        primaryStage.show(); // Show the sign-in window
     }
 
     /**
@@ -144,6 +147,6 @@ public class SetupView extends Application {
      * @param args the command-line arguments (if any).
      */
     public static void main(String[] args) {
-        launch(args);
+        launch(args); // TODO: Launch the JavaFX application
     }
 }
